@@ -17,7 +17,9 @@ func Hello(name string) (string, error) {
 	
 		// Return a greeting that embeds the name in a message.
     message := fmt.Sprintf(randomFormat(), name)
-    return message, nil
+		// message := fmt.Sprintf(randomFormat())  // uncomment to fail test
+		
+		return message, nil
 }
 
 // Hellos returns a map that associates each of the 
@@ -28,18 +30,24 @@ func Hellos(names []string) (map[string]string, error) {
 
 	// Loop through the received slice, we call the 
 	// hello function to get a msg for each name
+	// we use _ to ignore the index, but if we need 
+	// it then we can use index, name
+	//! range returns TWO values: index, name
+	//! *index* of the current item
+	//! *name* a COPY of the value at the index
+	//? In this example we don't need the index
+	//? so we use Go's blank identifier (underscore_)
 	for _, name := range names {
 		
-		// get the msg and err
+		// get the msg and err from Hello(...)
 		message, err := Hello(name)
 		
-		// if err is not nil then return nil and error
+		// if err is not nil (null) then return nil and error
 		if err != nil {
 			return nil, err
 		}
 
-		// In the map, associate the retrieved message
-		// with the name
+		// In the map, assign value MESSAGE to key NAME
 		messages[name] = message
 	}
 
